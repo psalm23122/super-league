@@ -1,0 +1,789 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Super League Forum</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        :root {
+            --primary: #1a3a6c;
+            --secondary: #e63946;
+            --accent: #f1faee;
+            --light: #f8f9fa;
+            --dark: #212529;
+            --success: #2a9d8f;
+            --warning: #e9c46a;
+        }
+        
+        body {
+            background-color: #f0f2f5;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header */
+        header {
+            background: linear-gradient(135deg, var(--primary), #2c5282);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .logo i {
+            font-size: 2.5rem;
+            color: var(--accent);
+        }
+        
+        .logo h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .contact-info {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(255,255,255,0.15);
+            padding: 8px 15px;
+            border-radius: 30px;
+        }
+        
+        .contact-info i {
+            color: var(--accent);
+        }
+        
+        /* Navigation */
+        nav {
+            background: var(--primary);
+            padding: 0.8rem 0;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            justify-content: center;
+            gap: 25px;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            padding: 8px 15px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            background: var(--secondary);
+            color: white;
+        }
+        
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(26, 58, 108, 0.85), rgba(26, 58, 108, 0.9)), url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%231a3a6c"/><circle cx="50" cy="50" r="40" fill="none" stroke="%23e63946" stroke-width="2"/></svg>');
+            background-size: cover;
+            color: white;
+            padding: 4rem 0;
+            text-align: center;
+        }
+        
+        .hero h2 {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        
+        /* Main Content */
+        .main-content {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 30px;
+            padding: 3rem 0;
+        }
+        
+        @media (max-width: 900px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .content-section {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            padding: 25px;
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--secondary);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .section-title i {
+            color: var(--secondary);
+        }
+        
+        /* Registration Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            color: var(--dark);
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        
+        .image-upload {
+            border: 2px dashed #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .image-upload:hover {
+            border-color: var(--primary);
+            background: #f8f9fa;
+        }
+        
+        .image-upload i {
+            font-size: 2.5rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn:hover {
+            background: var(--secondary);
+            transform: translateY(-2px);
+        }
+        
+        .btn-success {
+            background: var(--success);
+        }
+        
+        .btn-warning {
+            background: var(--warning);
+            color: var(--dark);
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 25px;
+        }
+        
+        .announcement {
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            padding: 25px;
+        }
+        
+        .announcement-item {
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .announcement-item:last-child {
+            border-bottom: none;
+        }
+        
+        .announcement-date {
+            font-size: 0.85rem;
+            color: var(--secondary);
+            margin-bottom: 5px;
+        }
+        
+        /* League Table */
+        .table-responsive {
+            overflow-x: auto;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #eee;
+        }
+        
+        th {
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+        }
+        
+        tr:hover {
+            background: #f8f9fa;
+        }
+        
+        .rank-1 {
+            color: gold;
+            font-weight: bold;
+        }
+        
+        .rank-2 {
+            color: silver;
+            font-weight: bold;
+        }
+        
+        .rank-3 {
+            color: #cd7f32;
+            font-weight: bold;
+        }
+        
+        /* Match Results */
+        .match-result {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .match-result:last-child {
+            border-bottom: none;
+        }
+        
+        .teams {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .team-logo {
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+        }
+        
+        .score {
+            font-weight: bold;
+            font-size: 1.2rem;
+            min-width: 60px;
+            text-align: center;
+        }
+        
+        /* MVP Section */
+        .mvp-card {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            padding: 15px 0;
+        }
+        
+        .mvp-image {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+        
+        /* Footer */
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 2rem 0 1rem;
+            margin-top: 3rem;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        .footer-column h3 {
+            color: var(--secondary);
+            margin-bottom: 1.2rem;
+            font-size: 1.3rem;
+        }
+        
+        .footer-column p, .footer-column li {
+            margin-bottom: 0.8rem;
+            opacity: 0.8;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            opacity: 0.7;
+        }
+        
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .hero h2 {
+                font-size: 2.2rem;
+            }
+            
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <div class="logo">
+                <i class="fas fa-futbol"></i>
+                <h1>Super League Forum</h1>
+            </div>
+            <div class="contact-info">
+                <i class="fas fa-phone"></i>
+                <span>020 319 4544</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="container">
+            <ul class="nav-links">
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#register">Player Registration</a></li>
+                <li><a href="#matches">Match Results</a></li>
+                <li><a href="#league">League Table</a></li>
+                <li><a href="#mvp">MVP</a></li>
+                <li><a href="#announcements">Announcements</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h2>Welcome to Super League Forum</h2>
+            <p>Your official platform for player registration, match reporting, league standings, and important announcements.</p>
+            <a href="#register" class="btn">Register Players</a>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="main-content">
+            <!-- Left Column -->
+            <div class="left-column">
+                <!-- Player Registration -->
+                <section id="register" class="content-section">
+                    <h2 class="section-title"><i class="fas fa-user-plus"></i> Player Registration</h2>
+                    <p>Register your team players (max 25 players). Include player details and photo.</p>
+                    
+                    <form id="registrationForm">
+                        <div class="form-group">
+                            <label for="teamName">Team Name</label>
+                            <input type="text" id="teamName" class="form-control" placeholder="Enter team name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="coachName">Coach Name</label>
+                            <input type="text" id="coachName" class="form-control" placeholder="Enter coach name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Coach Photo</label>
+                            <div class="image-upload">
+                                <i class="fas fa-camera"></i>
+                                <p>Click to upload coach photo</p>
+                                <input type="file" id="coachPhoto" accept="image/*" style="display: none;">
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Number of Players: <span id="playerCount">0</span>/25</label>
+                            <div id="playersContainer">
+                                <!-- Player fields will be added here -->
+                            </div>
+                            <button type="button" id="addPlayer" class="btn" style="margin-top: 15px;">
+                                <i class="fas fa-plus"></i> Add Player
+                            </button>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-success" style="margin-top: 20px; width: 100%;">
+                            <i class="fas fa-paper-plane"></i> Submit Registration
+                        </button>
+                    </form>
+                </section>
+                
+                <!-- Match Results -->
+                <section id="matches" class="content-section">
+                    <h2 class="section-title"><i class="fas fa-trophy"></i> Recent Match Results</h2>
+                    <div class="match-result">
+                        <div class="teams">
+                            <div class="team-logo">R</div>
+                            <span>Red Lions</span>
+                            <span>vs</span>
+                            <div class="team-logo">B</div>
+                            <span>Blue Eagles</span>
+                        </div>
+                        <div class="score">2 - 1</div>
+                    </div>
+                    <div class="match-result">
+                        <div class="teams">
+                            <div class="team-logo">G</div>
+                            <span>Green Tigers</span>
+                            <span>vs</span>
+                            <div class="team-logo">Y</div>
+                            <span>Yellow Panthers</span>
+                        </div>
+                        <div class="score">0 - 3</div>
+                    </div>
+                    <div class="match-result">
+                        <div class="teams">
+                            <div class="team-logo">P</div>
+                            <span>Purple Hawks</span>
+                            <span>vs</span>
+                            <div class="team-logo">O</div>
+                            <span>Orange Wolves</span>
+                        </div>
+                        <div class="score">1 - 1</div>
+                    </div>
+                    
+                    <button class="btn" style="margin-top: 20px;">
+                        <i class="fas fa-plus"></i> Add Match Result
+                    </button>
+                </section>
+                
+                <!-- MVP Section -->
+                <section id="mvp" class="content-section">
+                    <h2 class="section-title"><i class="fas fa-medal"></i> Match MVP</h2>
+                    <div class="mvp-card">
+                        <div class="mvp-image">K</div>
+                        <div>
+                            <h3>Kwame Asante</h3>
+                            <p>Red Lions | 2 Goals, 1 Assist</p>
+                        </div>
+                    </div>
+                    
+                    <button class="btn" style="margin-top: 20px;">
+                        <i class="fas fa-plus"></i> Nominate MVP
+                    </button>
+                </section>
+            </div>
+            
+            <!-- Right Column (Sidebar) -->
+            <div class="sidebar">
+                <!-- League Table -->
+                <section id="league" class="content-section">
+                    <h2 class="section-title"><i class="fas fa-chart-line"></i> League Table</h2>
+                    <div class="table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Team</th>
+                                    <th>P</th>
+                                    <th>W</th>
+                                    <th>D</th>
+                                    <th>L</th>
+                                    <th>GD</th>
+                                    <th>Pts</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td class="rank-1">1</td>
+                                    <td>Red Lions</td>
+                                    <td>5</td>
+                                    <td>4</td>
+                                    <td>1</td>
+                                    <td>0</td>
+                                    <td>+8</td>
+                                    <td>13</td>
+                                </tr>
+                                <tr>
+                                    <td class="rank-2">2</td>
+                                    <td>Blue Eagles</td>
+                                    <td>5</td>
+                                    <td>3</td>
+                                    <td>2</td>
+                                    <td>0</td>
+                                    <td>+5</td>
+                                    <td>11</td>
+                                </tr>
+                                <tr>
+                                    <td class="rank-3">3</td>
+                                    <td>Yellow Panthers</td>
+                                    <td>5</td>
+                                    <td>3</td>
+                                    <td>1</td>
+                                    <td>1</td>
+                                    <td>+3</td>
+                                    <td>10</td>
+                                </tr>
+                                <tr>
+                                    <td>4</td>
+                                    <td>Green Tigers</td>
+                                    <td>5</td>
+                                    <td>2</td>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td>0</td>
+                                    <td>7</td>
+                                </tr>
+                                <tr>
+                                    <td>5</td>
+                                    <td>Purple Hawks</td>
+                                    <td>5</td>
+                                    <td>1</td>
+                                    <td>2</td>
+                                    <td>2</td>
+                                    <td>-1</td>
+                                    <td>5</td>
+                                </tr>
+                                <tr>
+                                    <td>6</td>
+                                    <td>Orange Wolves</td>
+                                    <td>5</td>
+                                    <td>0</td>
+                                    <td>1</td>
+                                    <td>4</td>
+                                    <td>-15</td>
+                                    <td>1</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </section>
+                
+                <!-- Announcements -->
+                <section id="announcements" class="announcement">
+                    <h2 class="section-title"><i class="fas fa-bullhorn"></i> Announcements</h2>
+                    <div class="announcement-item">
+                        <div class="announcement-date">June 15, 2023</div>
+                        <h3>Season Kickoff</h3>
+                        <p>The new season begins next Saturday at 3 PM at Central Stadium.</p>
+                    </div>
+                    <div class="announcement-item">
+                        <div class="announcement-date">June 10, 2023</div>
+                        <h3>Registration Deadline</h3>
+                        <p>All player registrations must be completed by June 20th.</p>
+                    </div>
+                    <div class="announcement-item">
+                        <div class="announcement-date">June 5, 2023</div>
+                        <h3>New Rules</h3>
+                        <p>Substitutions are now limited to 5 per match as per league regulations.</p>
+                    </div>
+                    
+                    <button class="btn btn-warning" style="margin-top: 20px; width: 100%;">
+                        <i class="fas fa-plus"></i> Add Announcement
+                    </button>
+                </section>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Super League Forum</h3>
+                    <p>Your official platform for managing the Super League - player registration, match reporting, league standings, and important announcements.</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-phone"></i> 020 319 4544</p>
+                    <p><i class="fas fa-envelope"></i> info@superleagueforum.com</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Accra, Ghana</p>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#register">Player Registration</a></li>
+                        <li><a href="#matches">Match Results</a></li>
+                        <li><a href="#league">League Table</a></li>
+                        <li><a href="#mvp">MVP</a></li>
+                        <li><a href="#announcements">Announcements</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 Super League Forum. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Player registration functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const playersContainer = document.getElementById('playersContainer');
+            const addPlayerBtn = document.getElementById('addPlayer');
+            const playerCount = document.getElementById('playerCount');
+            const registrationForm = document.getElementById('registrationForm');
+            const coachPhoto = document.getElementById('coachPhoto');
+            
+            let playerIndex = 0;
+            const maxPlayers = 25;
+            
+            // Add player field
+            addPlayerBtn.addEventListener('click', function() {
+                if (playerIndex >= maxPlayers) {
+                    alert('Maximum 25 players allowed!');
+                    return;
+                }
+                
+                playerIndex++;
+                playerCount.textContent = playerIndex;
+                
+                const playerDiv = document.createElement('div');
+                playerDiv.className = 'form-row';
+                playerDiv.innerHTML = `
+                    <div class="form-group">
+                        <label>Player ${playerIndex} Name</label>
+                        <input type="text" name="playerName${playerIndex}" class="form-control" placeholder="Player name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Jersey Number</label>
+                        <input type="number" name="playerNumber${playerIndex}" class="form-control" min="1" max="99" placeholder="Number" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Player Photo</label>
+                        <div class="image-upload" onclick="document.getElementById('playerPhoto${playerIndex}').click()">
+                            <i class="fas fa-camera"></i>
+                            <p>Upload photo</p>
+                            <input type="file" id="playerPhoto${playerIndex}" name="playerPhoto${playerIndex}" accept="image/*" style="display: none;">
+                        </div>
+                    </div>
+                `;
+                
+                playersContainer.appendChild(playerDiv);
+            });
+            
+            // Coach photo upload
+            document.querySelector('.image-upload').addEventListener('click', function() {
+                coachPhoto.click();
+            });
+            
+            // Form submission
+            registrationForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                alert('Player registration submitted successfully! Our team will review your submission.');
+                registrationForm.reset();
+                playersContainer.innerHTML = '';
+                playerIndex = 0;
+                playerCount.textContent = '0';
+            });
+            
+            // Smooth scrolling for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        window.scrollTo({
+                            top: target.offsetTop - 100,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
